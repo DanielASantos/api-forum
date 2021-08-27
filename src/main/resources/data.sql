@@ -1,4 +1,4 @@
-INSERT INTO USUARIO(nome, email, senha) VALUES('Aluno', 'aluno@email.com', '123456');
+INSERT INTO USUARIO(nome, email, senha) VALUES('Aluno', 'aluno@email.com', '$2a$10$3JS55BtqIOrx4fmSkRn/7O3b/MF/ytaUdWfU1yP5ewq2PrLHPgvT2');
 
 INSERT INTO CATEGORIA(nome) VALUES ('Back-End');
 INSERT INTO CATEGORIA(nome) VALUES ('Front-End');
