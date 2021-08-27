@@ -1,5 +1,7 @@
 package br.com.daniel.forum.controller.form;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -7,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 
 import br.com.daniel.forum.modelo.Curso;
 import br.com.daniel.forum.modelo.Topico;
-import br.com.daniel.forum.repository.CursoRepository;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,10 +23,10 @@ public class TopicoForm {
 	private String mensagem;
 	
 	@NotNull @NotEmpty
-	private String nomeCurso;
-	
-		public Topico converter(CursoRepository cursoRepository) {
-			Curso curso = cursoRepository.findByNome(nomeCurso);
-		return new Topico(titulo, mensagem, curso);
+	private Long idCurso;
+
+	public Topico converter(Optional<Curso> curso) {
+		return new Topico(titulo, mensagem, curso.get());
 	}
+	
 }

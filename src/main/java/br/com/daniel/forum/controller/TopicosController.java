@@ -27,6 +27,7 @@ import br.com.daniel.forum.controller.dto.DetalhesTopicoDto;
 import br.com.daniel.forum.controller.dto.TopicoDto;
 import br.com.daniel.forum.controller.form.AtualizacaoTopicoForm;
 import br.com.daniel.forum.controller.form.TopicoForm;
+import br.com.daniel.forum.modelo.Curso;
 import br.com.daniel.forum.modelo.Topico;
 import br.com.daniel.forum.repository.CursoRepository;
 import br.com.daniel.forum.repository.TopicoRepository;
@@ -66,11 +67,15 @@ public class TopicosController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
-		Topico topico = form.converter(cursoRepository);
-		topicoRepository.save(topico);
-		
-		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
-		return ResponseEntity.created(uri).body(new TopicoDto(topico));
+		Optional<Curso> curso = cursoRepository.findById(form.getIdCurso());
+		if (curso.isPresent()) {
+			Topico topico = form.converter(curso);
+			topicoRepository.save(topico);
+			
+			URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+			return ResponseEntity.created(uri).body(new TopicoDto(topico));
+		}
+		return ResponseEntity.notFound().build();
 	}
 	
 	@PutMapping("/{id}")
